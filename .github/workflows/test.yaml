@@ -22,8 +22,13 @@ jobs:
         run: |
           echo $DOCKER_HOST
           podman -v
+          docker -v
 
-  test-with-podman-api:
+          docker build -t quay.io/k8s-crafts/go-app-example:latest -f Dockerfile .
+          
+          podman images | grep quay.io/k8s-crafts/go-app-example
+
+  with-podman-api-test:
     strategy:
       matrix:
         runner: [ubuntu-latest, ubuntu-24.04, ubuntu-22.04, ubuntu-20.04]
@@ -39,3 +44,8 @@ jobs:
         run: |
           echo $DOCKER_HOST
           podman -v
+          docker -v
+
+          docker build -t quay.io/k8s-crafts/go-app-example:latest -f Dockerfile .
+          
+          podman images | grep quay.io/k8s-crafts/go-app-example
