@@ -1,0 +1,19 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+      - releases/*
+  pull_request:
+
+jobs:
+  shell-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ludeeus/action-shellcheck@master
+        with:
+          version: v0.9.0
+        env:
+          SHELLCHECK_OPTS: -s bash

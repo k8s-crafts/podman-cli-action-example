@@ -1,0 +1,41 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+      - releases/*
+  pull_request:
+
+jobs:
+  base-test:
+    strategy:
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04, ubuntu-22.04, ubuntu-20.04]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Emulate Docker CLI with podman
+        uses: k8s-crafts/podman-cli-action@v1
+      - name: Test
+        run: |
+          echo $DOCKER_HOST
+          podman -v
+
+  test-with-podman-api:
+    strategy:
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04, ubuntu-22.04, ubuntu-20.04]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Emulate Docker CLI with podman
+        uses: k8s-crafts/podman-cli-action@v1
+        with:
+          podman_api: true
+      - name: Test
+        run: |
+          echo $DOCKER_HOST
+          podman -v
